@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prototipo | Nexus Diseños Digitales</title>
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <style>
@@ -486,7 +486,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6bIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6bIeHz" crossorigin="anonymous"></script>
 
     <script>
         const allProducts = [
@@ -496,7 +496,7 @@
                 type: 'digital',
                 price: 15000,
                 description: 'Archivo .STL de alta definición para imprimir un casco futurista con diseño aerodinámico y detalles intrincados, perfecto para cosplay o exhibición.',
-                imageUrl: 'images/casco-futurista.png'
+                imageUrl: 'casco-futurista.png'
             },
             {
                 id: 'phy001',
@@ -504,7 +504,7 @@
                 type: 'physical',
                 price: 25000,
                 description: 'Set de engranajes funcionales impresos en PLA de alta resistencia, ideales para proyectos de robótica o mecanismos personalizados.',
-                imageUrl: 'images/matriz-engranaje.png'
+                imageUrl: 'matriz-engranaje.png'
             },
             {
                 id: 'dig002',
@@ -512,7 +512,7 @@
                 type: 'digital',
                 price: 20000,
                 description: 'Archivo .STL listo para imprimir partes separadas de una figura de acción articulada, permitiendo personalización y poses dinámicas.',
-                imageUrl: 'images/figura-accion.png'
+                imageUrl: 'figura-accion.png'
             },
             {
                 id: 'phy002',
@@ -520,7 +520,7 @@
                 type: 'physical',
                 price: 18000,
                 description: 'Diseño ergonómico y resistente impreso en 3D para elevar tu laptop, mejorando la postura y la ventilación.',
-                imageUrl: 'images/soporte-laptop.png'
+                imageUrl: 'soporte-laptop.png'
             },
              {
                 id: 'dig003',
@@ -528,7 +528,7 @@
                 type: 'digital',
                 price: 12000,
                 description: 'Set de 5 miniaturas .STL de alta resolución para juegos de rol como Dungeons & Dragons, incluyendo un héroe, un mago, un orco y más.',
-                imageUrl: 'images/miniaturas-dnd.png'
+                imageUrl: 'miniaturas-dnd.png'
             },
              {
                 id: 'phy003',
@@ -536,7 +536,7 @@
                 type: 'physical',
                 price: 22000,
                 description: 'Impresión 3D de alta calidad de un jarrón con diseño moderno y minimalista, perfecto para decorar cualquier espacio.',
-                imageUrl: 'images/jarron-decorativo.png'
+                imageUrl: 'jarron-decorativo.png'
             }
         ];
 

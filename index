@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipo | Nexus Diseños Digitales</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --nexus-primary: #0d6efd;
+            --nexus-secondary: #6c757d;
+            --nexus-digital: #198754;
+            --nexus-physical: #fd7e14;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .product-card-digital .card-header {
+            background-color: var(--nexus-digital);
+            color: white;
+        }
+
+        .product-card-physical .card-header {
+            background-color: var(--nexus-physical);
+            color: white;
+        }
+        
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+        }
+
+        .whatsapp-float i {
+            margin-top: 15px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showPage('home')">
+                <i class="bi bi-box-seam"></i> Nexus Diseños
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('home')">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('store')">Tienda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('custom-request')">Solicitar Diseño</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('about')">Sobre Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('faq')">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('contact')">Contacto</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-outline-secondary me-2" onclick="showPage('admin-login')">
+                        <i class="bi bi-person-circle"></i> Admin
+                    </button>
+                    
+                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
+                        <i class="bi bi-cart-fill"></i> Carrito
+                        <span class="badge bg-danger" id="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-4">
+
+        <div id="page-home" class="page active">
+            <div class="p-5 mb-4 bg-light rounded-3">
+                <div class="container-fluid py-5">
+                    <h1 class="display-5 fw-bold">Bienvenido a Nexus Diseños Digitales</h1>
+                    <p class="col-md-8 fs-4">Tu tienda unificada para diseños .STL y productos físicos impresos en 3D.</p>
+                    <button class="btn btn-primary btn-lg" type="button" onclick="showPage('store')">Ir a la Tienda</button>
+                    <button class="btn btn-outline-secondary btn-lg" type="button" onclick="showPage('custom-request')">Pedir Diseño Personalizado</button>
+                </div>
+            </div>
+
+            <div class="row align-items-md-stretch">
+                <div class="col-md-6 mb-4">
+                    <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <h2>Productos Digitales (.STL)</h2>
+                        <p>Descarga archivos .STL de alta calidad al instante y comienza a imprimir. Inventario ilimitado.</p>
+                        <button class="btn btn-outline-light" type="button" onclick="showPage('store', { filter: 'digital' })">Ver Diseños Digitales</button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="h-100 p-5 bg-light border rounded-3">
+                        <h2>Productos Físicos 3D</h2>
+                        <p>Recibe matrices y figuras impresas en 3D directamente en tu puerta. Calidad profesional garantizada.</p>
+                        <button class="btn btn-outline-secondary" type="button" onclick="showPage('store', { filter: 'physical' })">Ver Productos Físicos</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-store" class="page">
+            <h2 class="mb-4">Catálogo de Productos</h2>
+            <p>RF-01: Mostrando productos físicos y digitales en un catálogo unificado.</p>
+            
+            <div class="mb-3">
+                <button class="btn btn-secondary" onclick="renderStore('all')">Todos</button>
+                <button class="btn btn-success" onclick="renderStore('digital')">Digitales (.STL)</button>
+                <button class="btn btn-warning" onclick="renderStore('physical')">Físicos (Impresos)</button>
+            </div>
+
+            <div id="product-list" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            </div>
+        </div>
+
+        <div id="page-custom-request" class="page">
+            <h2 class="mb-4">Solicitar Diseño Personalizado</h2>
+            <p>¿No encuentras lo que buscas? Describe tu idea y la crearemos para ti.</p>
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="custom-request-form">
+                                <div class="mb-3">
+                                    <label for="custom-name" class="form-label">Nombre Completo</label>
+                                    <input type="text" class="form-control" id="custom-name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="custom-email" class="form-label">Email de Contacto</label>
+                                    <input type="email" class="form-control" id="custom-email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="custom-description" class="form-label">Descripción del Pedido</label>
+                                    <textarea class="form-control" id="custom-description" rows="5" required></textarea>
+                                    <div class="form-text">Por favor, sé lo más descriptivo posible. (La carga de archivos está fuera del alcance de este prototipo).</div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+                            </form>
+                            <div id="custom-form-success" class="alert alert-success mt-3 d-none" role="alert">
+                                ¡Solicitud enviada! Te contactaremos pronto.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="alert alert-info">
+                        <h5><i class="bi bi-info-circle-fill"></i> ¿Cómo funciona?</h5>
+                        <ol>
+                            <li>Envía tu descripción.</li>
+                            <li>Te contactaremos por email con una cotización.</li>
+                            <li>Una vez aprobado, crearemos tu diseño.</li>
+                            <li>Recibirás el producto (digital o físico).</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-about" class="page">
+            <h2 class="mb-4">Sobre Nexus Diseños Digitales</h2>
+            <div class="row">
+                <div class="col-md-7">
+                    <p class="fs-5">Somos un equipo apasionado por la tecnología de impresión 3D. Nexus nació de la necesidad de unificar el mundo de los creadores digitales con el de los consumidores de productos físicos.</p>
+                    <p>Nuestra misión es proveer una plataforma intuitiva y funcional donde tanto diseñadores como entusiastas de la impresión 3D puedan encontrar, compartir y materializar sus ideas.</p>
+                    <p>Este prototipo es el primer paso para validar nuestra visión de un e-commerce unificado.</p>
+                    <h4 class="mt-4">El Equipo (según Acta)</h4>
+                    <ul>
+                        <li><strong>Natali Álvarez M.</strong> - Jefe de Proyecto</li>
+                        <li><strong>Daniel Oliveros M.</strong> - Gerente del Proyecto</li>
+                        <li><strong>Joaquín Reyes</strong> - Gerente del Proyecto</li>
+                    </ul>
+                </div>
+                <div class="col-md-5">
+                    <img src="https://i.imgur.com/39A8vYe.png" class="img-fluid rounded" alt="Equipo Nexus trabajando con impresora 3D">
+                </div>
+            </div>
+        </div>
+
+        <div id="page-faq" class="page">
+            <h2 class="mb-4">Preguntas Frecuentes (FAQ)</h2>
+            
+            <div class="accordion" id="faqAccordion">
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Sobre los Productos Digitales (.STL)
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <strong>¿Qué es un archivo .STL?</strong> Es el formato de archivo estándar utilizado para la impresión 3D. Contiene la geometría de su modelo 3D.
+                            <br><br>
+                            <strong>¿Cómo recibo mi archivo digital?</strong> Inmediatamente después de simular tu pago, recibirás un enlace de descarga en la página de confirmación (RF-04).
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Sobre los Productos Físicos (Impresos)
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <strong>¿Qué materiales utilizan?</strong> Utilizamos PLA y Resina de alta calidad para nuestras impresiones, dependiendo del producto.
+                            <br><br>
+                            <strong>¿Cuánto tarda el envío?</strong> Este es un prototipo, por lo que no se realizan envíos reales. El flujo de pago es simulado.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Sobre el Proceso de Compra
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <strong>¿Es seguro mi pago?</strong> (RF-03) El proceso de pago es 100% simulado. No se procesarán pagos reales ni se solicitarán datos de tarjetas de crédito reales. Puedes usar datos de prueba.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-contact" class="page">
+            <h2 class="mb-4">Contacto</h2>
+            <p>Puedes contactarnos a través de nuestro formulario de diseños personalizados o mediante nuestras redes sociales.</p>
+            <div class="alert alert-info">
+                Para soporte inmediato, utiliza nuestro botón de WhatsApp.
+                (RF-07)
+            </div>
+            <a href="https://instagram.com" target="_blank" class="btn btn-lg btn-outline-danger">
+                <i class="bi bi-instagram"></i> Síguenos en Instagram
+            </a>
+        </div>
+
+        <div id="page-admin-login" class="page">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h2 class="mb-4 text-center">Acceso de Administrador</h2>
+                    <p class="text-center text-muted">(RF-10) Simulación de Login</p>
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <form id="admin-login-form">
+                                <div class="mb-3">
+                                    <label for="admin-user" class="form-label">Usuario</label>
+                                    <input type="text" class="form-control" id="admin-user" value="admin" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="admin-pass" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="admin-pass" required>
+                                    <div class="form-text">Pista: La contraseña está hardcodeada en JS (ej. 'admin123')</div>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                                </div>
+                            </form>
+                            <div id="admin-login-error" class="alert alert-danger mt-3 d-none" role="alert">
+                                Contraseña incorrecta.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-admin-panel" class="page">
+            <h2 class="mb-4">Panel de Administrador</h2>
+            <p>(RF-10) Esta es una UI estática para demostrar el flujo de login.</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Nuevos Pedidos</h5>
+                            <p class="card-text fs-3">5</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Ingresos (Simulados)</h5>
+                            <p class="card-text fs-3">$1,250</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-info mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Usuarios Registrados</h5>
+                            <p class="card-text fs-3">150</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h4>Gestión (UI Estática)</h4>
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="#">Gestionar Productos</a></li>
+                    <li class="list-group-item"><a href="#">Ver Pedidos</a></li>
+                    <li class="list-group-item"><a href="#">Revisar Solicitudes Personalizadas</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="page-checkout" class="page">
+            <h2 class="mb-4">Simulación de Checkout (RF-03)</h2>
+            <p>Este formulario es solo una UI. No se procesarán pagos reales.</p>
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Datos de Facturación (Simulados)</h5>
+                            <form id="checkout-form">
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <label for="firstName" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="firstName" placeholder="Nombre" value="" required>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="lastName" class="form-label">Apellido</label>
+                                        <input type="text" class="form-control" id="lastName" placeholder="Apellido" value="" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" placeholder="tu@email.com" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="address" class="form-label">Dirección (para físicos)</label>
+                                        <input type="text" class="form-control" id="address" placeholder="1234 Calle Falsa" required>
+                                    </div>
+                                </div>
+                                
+                                <hr class="my-4">
+
+                                <h5 class="mb-3">Datos de Pago (Simulados)</h5>
+                                <div class="row gy-3">
+                                    <div class="col-md-6">
+                                        <label for="cc-name" class="form-label">Nombre en Tarjeta</label>
+                                        <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="cc-number" class="form-label">Número de Tarjeta</label>
+                                        <input type="text" class="form-control" id="cc-number" placeholder="4242-4242-4242-4242" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="cc-expiration" class="form-label">Expiración</label>
+                                        <input type="text" class="form-control" id="cc-expiration" placeholder="12/25" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="cc-cvv" class="form-label">CVV</label>
+                                        <input type="text" class="form-control" id="cc-cvv" placeholder="123" required>
+                                    </div>
+                                </div>
+                                
+                                <hr class="my-4">
+                                <button class="w-100 btn btn-primary btn-lg" type="submit">Simular Pago</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-primary">Tu Carrito</span>
+                                <span class="badge bg-primary rounded-pill" id="checkout-cart-count"></span>
+                            </h5>
+                            <ul class="list-group mb-3" id="checkout-cart-summary">
+                            </ul>
+                            <div class="list-group-item d-flex justify-content-between">
+                                <strong>Total (CLP)</strong>
+                                <strong id="checkout-total-price">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-order-success" class="page">
+            <div class="container text-center">
+                <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+                <h2 class="mt-3">¡Compra Realizada con Éxito!</h2>
+                <p class="fs-5 text-muted">(RF-03) Tu pago ha sido simulado exitosamente.</p>
+                <p>El carrito ha sido limpiado.</p>
+                
+                <div id="digital-download-section" class="mt-4 d-none">
+                    <h4>Descarga tus Productos Digitales</h4>
+                    <p>Gracias por tu compra. Aquí tienes tus archivos:</p>
+                    <div id="digital-download-links" class="list-group w-auto mx-auto">
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary mt-4" onclick="showPage('store')">Volver a la Tienda</button>
+            </div>
+        </div>
+
+
+    </main>
+
+    <footer class="bg-dark text-white text-center p-4 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Nexus Diseños Digitales - Prototipo Funcional</p>
+            <p class="mb-0">
+                <a href="https://instagram.com" target="_blank" class="text-white me-2"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="text-white me-2"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="text-white"><i class="bi bi-twitter"></i></a>
+            </p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/56912345678?text=Hola%2C%20tengo%20una%20consulta%20sobre%20un%20diseño%20personalizado." class="whatsapp-float" target="_blank">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 id="cartOffcanvasLabel">Carrito de Compras</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="cart-items-container">
+            </div>
+            
+            <hr>
+            
+            <div class="mt-3">
+                <h4 class="d-flex justify-content-between">
+                    <span>Total:</span>
+                    <span id="cart-total-price">$0</span>
+                </h4>
+            </div>
+
+            <div class="d-grid gap-2 mt-4">
+                <button class="btn btn-primary" id="go-to-checkout-btn">Ir a Pagar (Simular)</button>
+                <button class="btn btn-outline-danger" id="clear-cart-btn">Vaciar Carrito</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6bIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        const allProducts = [
+            {
+                id: 'dig001',
+                name: 'Casco Futurista',
+                type: 'digital',
+                price: 15000,
+                description: 'Archivo .STL de alta definición para imprimir un casco futurista con diseño aerodinámico y detalles intrincados, perfecto para cosplay o exhibición.',
+                imageUrl: 'images/casco-futurista.png'
+            },
+            {
+                id: 'phy001',
+                name: 'Matriz de Engranaje',
+                type: 'physical',
+                price: 25000,
+                description: 'Set de engranajes funcionales impresos en PLA de alta resistencia, ideales para proyectos de robótica o mecanismos personalizados.',
+                imageUrl: 'images/matriz-engranaje.png'
+            },
+            {
+                id: 'dig002',
+                name: 'Figura de Acción Articulada',
+                type: 'digital',
+                price: 20000,
+                description: 'Archivo .STL listo para imprimir partes separadas de una figura de acción articulada, permitiendo personalización y poses dinámicas.',
+                imageUrl: 'images/figura-accion.png'
+            },
+            {
+                id: 'phy002',
+                name: 'Soporte para Laptop',
+                type: 'physical',
+                price: 18000,
+                description: 'Diseño ergonómico y resistente impreso en 3D para elevar tu laptop, mejorando la postura y la ventilación.',
+                imageUrl: 'images/soporte-laptop.png'
+            },
+             {
+                id: 'dig003',
+                name: 'Miniaturas (Set D&D)',
+                type: 'digital',
+                price: 12000,
+                description: 'Set de 5 miniaturas .STL de alta resolución para juegos de rol como Dungeons & Dragons, incluyendo un héroe, un mago, un orco y más.',
+                imageUrl: 'images/miniaturas-dnd.png'
+            },
+             {
+                id: 'phy003',
+                name: 'Jarrón Decorativo',
+                type: 'physical',
+                price: 22000,
+                description: 'Impresión 3D de alta calidad de un jarrón con diseño moderno y minimalista, perfecto para decorar cualquier espacio.',
+                imageUrl: 'images/jarron-decorativo.png'
+            }
+        ];
+
+        const allPages = document.querySelectorAll('.page');
+        
+        function showPage(pageId, params = {}) {
+            const navCollapse = document.getElementById('navbarNav');
+            if (navCollapse.classList.contains('show')) {
+                new bootstrap.Collapse(navCollapse).hide();
+            }
+
+            allPages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            const activePage = document.getElementById(`page-${pageId}`);
+            if (activePage) {
+                activePage.classList.add('active');
+            }
+
+            switch(pageId) {
+                case 'store':
+                    const filter = params.filter || 'all';
+                    renderStore(filter);
+                    break;
+                case 'checkout':
+                    renderCheckoutSummary();
+                    break;
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        function renderStore(filter = 'all') {
+            const productListContainer = document.getElementById('product-list');
+            productListContainer.innerHTML = '';
+            
+            const productsToRender = allProducts.filter(p => filter === 'all' || p.type === filter);
+
+            if (productsToRender.length === 0) {
+                 productListContainer.innerHTML = '<p class="text-muted">No se encontraron productos en esta categoría.</p>';
+                 return;
+            }
+
+            productsToRender.forEach(product => {
+                const isDigital = product.type === 'digital';
+                const cardClass = isDigital ? 'product-card-digital' : 'product-card-physical';
+                const headerText = isDigital ? 'Digital (.STL)' : 'Físico (Impreso)';
+
+                const productCard = `
+                    <div class="col">
+                        <div class="card h-100 ${cardClass}">
+                            <img src="${product.imageUrl}" class="card-img-top" alt="${product.name}">
+                            <div class="card-header">
+                                <small class="fw-bold">${headerText}</small>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">${product.name}</h5>
+                                <p class="card-text">${product.description}</p>
+                                <h4 class="card-text text-end mb-3">$${product.price.toLocaleString('es-CL')}</h4>
+                            </div>
+                            <div class="card-footer bg-transparent border-0 p-3">
+                                <div class="d-grid">
+                                    <button class="btn btn-primary" onclick="cart.add('${product.id}')">
+                                        <i class="bi bi-cart-plus"></i> Agregar al Carrito
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productListContainer.innerHTML += productCard;
+            });
+        }
+
+        const cart = {
+            items: {},
+            LOCAL_STORAGE_CART_KEY: 'nexusCart',
+
+            load() {
+                const storedCart = localStorage.getItem(this.LOCAL_STORAGE_CART_KEY);
+                if (storedCart) {
+                    this.items = JSON.parse(storedCart);
+                }
+                this.updateUI();
+            },
+
+            save() {
+                localStorage.setItem(this.LOCAL_STORAGE_CART_KEY, JSON.stringify(this.items));
+                this.updateUI();
+            },
+
+            add(productId) {
+                const product = getProductDetails(productId);
+                if (!product) {
+                    console.error("Producto no encontrado");
+                    return;
+                }
+                if (this.items[productId]) {
+                    this.items[productId]++;
+                } else {
+                    this.items[productId] = 1;
+                }
+                showToast(`'${product.name}' agregado al carrito.`);
+                this.save();
+            },
+            
+            update(productId, quantity) {
+                if (quantity <= 0) {
+                    delete this.items[productId];
+                } else {
+                    this.items[productId] = quantity;
+                }
+                this.save();
+            },
+
+            clear() {
+                this.items = {};
+                this.save();
+            },
+
+            getFullCart() {
+                return Object.keys(this.items).map(id => {
+                    const product = getProductDetails(id);
+                    if (!product) {
+                        return null; 
+                    }
+                    const quantity = this.items[id];
+                    return {
+                        ...product,
+                        quantity,
+                        subtotal: product.price * quantity
+                    };
+                }).filter(item => item !== null);
+            },
+            
+            hasDigitalProducts() {
+                return this.getFullCart().some(item => item.type === 'digital');
+            },
+            
+            getDigitalProducts() {
+                 return this.getFullCart().filter(item => item.type === 'digital');
+            },
+
+            updateUI() {
+                const fullCart = this.getFullCart();
+                const cartContainer = document.getElementById('cart-items-container');
+                const cartCount = document.getElementById('cart-count');
+                const cartTotalPrice = document.getElementById('cart-total-price');
+                
+                let totalItems = 0;
+                let totalPrice = 0;
+                
+                cartContainer.innerHTML = '';
+
+                if (fullCart.length === 0) {
+                    cartContainer.innerHTML = '<p class="text-muted">El carrito está vacío.</p>';
+                } else {
+                    fullCart.forEach(item => {
+                        totalItems += item.quantity;
+                        totalPrice += item.subtotal;
+                        
+                        const itemHtml = `
+                            <div class="card mb-2">
+                                <div class="card-body p-2">
+                                    <div class="d-flex align-items-center">
+                                        <img src="${item.imageUrl}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                        <div class="ms-2 flex-grow-1">
+                                            <h6 class="mb-0 small">${item.name}</h6>
+                                            <small class="text-muted">$${item.price.toLocaleString('es-CL')} c/u</small>
+                                        </div>
+                                        <input type="number" class="form-control form-control-sm" value="${item.quantity}" onchange="cart.update('${item.id}', parseInt(this.value))" style="width: 60px;" min="0">
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        cartContainer.innerHTML += itemHtml;
+                    });
+                }
+
+                cartCount.textContent = totalItems;
+                cartTotalPrice.textContent = `$${totalPrice.toLocaleString('es-CL')}`;
+            }
+        };
+
+        function getProductDetails(id) {
+            return allProducts.find(p => p.id === id);
+        }
+        
+        function showToast(message) {
+            console.log("Toast: ", message);
+        }
+
+        function renderCheckoutSummary() {
+            const fullCart = cart.getFullCart();
+            const summaryContainer = document.getElementById('checkout-cart-summary');
+            const totalElement = document.getElementById('checkout-total-price');
+            const countElement = document.getElementById('checkout-cart-count');
+            
+            summaryContainer.innerHTML = '';
+            let totalPrice = 0;
+            let totalItems = 0;
+
+            fullCart.forEach(item => {
+                totalPrice += item.subtotal;
+                totalItems += item.quantity;
+
+                const itemHtml = `
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">${item.name}</h6>
+                            <small class="text-muted">Cantidad: ${item.quantity}</small>
+                        </div>
+                        <span class="text-muted">$${item.subtotal.toLocaleString('es-CL')}</span>
+                    </li>
+                `;
+                summaryContainer.innerHTML += itemHtml;
+            });
+            
+            totalElement.textContent = `$${totalPrice.toLocaleString('es-CL')}`;
+            countElement.textContent = totalItems;
+        }
+
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const digitalProducts = cart.getDigitalProducts();
+            const downloadSection = document.getElementById('digital-download-section');
+            const downloadLinks = document.getElementById('digital-download-links');
+            
+            if (digitalProducts.length > 0) {
+                downloadLinks.innerHTML = ''; 
+                digitalProducts.forEach(item => {
+                    const linkHtml = `<a href="placeholder.stl" download="${item.name}.stl" class="list-group-item list-group-item-action">
+                        <i class="bi bi-download"></i> ${item.name}.stl
+                    </a>`;
+                    downloadLinks.innerHTML += linkHtml;
+                });
+                downloadSection.classList.remove('d-none');
+            } else {
+                downloadSection.classList.add('d-none');
+            }
+            
+            cart.clear();
+            showPage('order-success');
+        });
+        
+        document.getElementById('go-to-checkout-btn').addEventListener('click', () => {
+            const cartOffcanvasEl = document.getElementById('cartOffcanvas');
+            const cartOffcanvas = bootstrap.Offcanvas.getInstance(cartOffcanvasEl) || new bootstrap.Offcanvas(cartOffcanvasEl);
+            cartOffcanvas.hide();
+            showPage('checkout');
+        });
+        
+        document.getElementById('clear-cart-btn').addEventListener('click', () => {
+            cart.clear();
+        });
+
+        document.getElementById('admin-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('admin-pass').value;
+            const errorEl = document.getElementById('admin-login-error');
+            const HARDCODED_PASSWORD = 'admin123';
+            
+            if (password === HARDCODED_PASSWORD) {
+                errorEl.classList.add('d-none');
+                document.getElementById('admin-pass').value = ''; 
+                showPage('admin-panel');
+            } else {
+                errorEl.classList.remove('d-none');
+            }
+        });
+        
+        document.getElementById('custom-request-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const successMsg = document.getElementById('custom-form-success');
+            
+            form.reset(); 
+            successMsg.classList.remove('d-none'); 
+            
+            setTimeout(() => {
+                successMsg.classList.add('d-none');
+            }, 3000);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            cart.load();
+            showPage('home');
+        });
+
+    </script>
+</body>
+</html>
